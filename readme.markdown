@@ -31,6 +31,9 @@ Return `hopts` for signing and verification that can be fed into
 [hyperlog](https://npmjs.com/package/hyperlog). Additional `opts` will be merged
 into `hopts`.
 
+`opts.publicKey` can be an array of public keys or a `function(id, cb){}` that
+should call `cb(null, true)` if `id` is a valid public key.
+
 # install
 
 ```
