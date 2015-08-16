@@ -5,6 +5,7 @@ var sodium = require('sodium')
 
 var keypair = sodium.api.crypto_sign_keypair()
 var log = hyperlog(memdb(), hsodium(sodium, keypair))
-log.add('whatever', function (err, node) {
+
+log.add(null, Buffer('whatever'), function (err, node) {
   console.log(node)
 })
