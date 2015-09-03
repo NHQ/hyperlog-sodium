@@ -16,7 +16,9 @@ module.exports = function (sodium, keypair, opts) {
   }
  
   return xtend({
-    identity: defined(keypair.identity, keypair.publicKey),
+    identity: defined(
+      keypair.identity, keypair.publicKey, opts.identity, opts.id
+    ),
     sign: function (node, cb) {
       var bkey = Buffer(node.key, 'hex')
       cb(null, sodium.crypto_sign(bkey, keypair.secretKey))
