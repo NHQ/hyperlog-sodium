@@ -12,6 +12,6 @@ test('add', function (t) {
   log.add(null, Buffer('whatever'), function (err, node) {
     t.ifError(err)
     t.deepEqual(node.identity, keypair.publicKey)
-    t.ok(sodium.verify(node.signature, node.identity))
+    t.ok(sodium.verify(Buffer(node.key, 'hex'), node.signature, node.identity))
   })
 })

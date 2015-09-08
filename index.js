@@ -21,15 +21,17 @@ module.exports = function (sodium, keypair, opts) {
     ),
     sign: function (node, cb) {
       var bkey = Buffer(node.key, 'hex')
+      if (sodium.sign && !sodium.crypto_sign) {
+        return cb(null, sodium.sign(bkey, keypair.secretKey))
+      }
       cb(null, sodium.crypto_sign(bkey, keypair.secretKey))
     },
     verify: function (node, cb) {
-      var m = sodium.crypto_sign_open(node.signature, node.identity)
       if (typeof pub === 'function') {
         pub(node.identity, function (err, ok) {
           if (err) cb(err)
           else if (!ok) cb(null, false)
-          else cb(null, eq(m, Buffer(node.key, 'hex')))
+          else cb(null, verify(node))
         })
       }
       else {
@@ -37,8 +39,18 @@ module.exports = function (sodium, keypair, opts) {
           if (eq(node.identity, pub[i])) break
         }
         if (i === pub.length) return cb(null, false)
-        cb(null, eq(m, Buffer(node.key, 'hex')))
+        cb(null, verify(node))
       }
     }
   }, opts)
+
+  function verify (node) {
+    var bkey = Buffer(node.key, 'hex')
+    if (sodium.verify && !sodium.crypto_sign_open) {
+      return sodium.verify(bkey, node.signature, node.identity)
+    } else {
+      var m = sodium.crypto_sign_open(node.signature, node.identity)
+      return eq(m, bkey)
+    }
+  }
 }
