@@ -34,6 +34,9 @@ into `hopts`.
 `opts.publicKey` can be an array of public keys or a `function(id, cb){}` that
 should call `cb(null, true)` if `id` is a valid public key.
 
+The `sodium` implementation can be like the `sodium` module or like the
+`sodium-signatures` module on npm.
+
 # install
 
 ```
