@@ -18,6 +18,7 @@
     "memdb": "^1.0.1",
     "sodium": "^1.0.21",
     "sodium-browserify": "0.0.0",
+    "sodium-signatures": "^1.0.1",
     "tape": "^4.2.0"
   },
   "scripts": {
