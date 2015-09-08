@@ -12,8 +12,8 @@ test('add', function (t) {
   log.add(null, Buffer('whatever'), function (err, node) {
     t.ifError(err)
     t.deepEqual(node.identity, keypair.publicKey)
-    var m = sodium.api.crypto_sign_open(node.signature, node.identity)
-    t.deepEqual(m, Buffer(node.key, 'hex'))
+    t.ok(sodium.api.crypto_sign_verify_detached(
+      node.signature, Buffer(node.key, 'hex'), node.identity))
   })
 })
 
@@ -25,7 +25,7 @@ test('add api', function (t) {
   log.add(null, Buffer('whatever'), function (err, node) {
     t.ifError(err)
     t.deepEqual(node.identity, keypair.publicKey)
-    var m = sodium.api.crypto_sign_open(node.signature, node.identity)
-    t.deepEqual(m, Buffer(node.key, 'hex'))
+    t.ok(sodium.api.crypto_sign_verify_detached(
+      node.signature, Buffer(node.key, 'hex'), node.identity))
   })
 })
